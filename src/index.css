@@ -1,0 +1,46 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  /* Main Color */
+  --color-main-primary: #3ecf4c;
+  --color-main-primary-400: #6be26b;
+  --color-main-primary-300: #94f08b;
+  --color-main-primary-200: #c0fab4;
+  --color-main-primary-100: #e2fcd9cc;
+
+  /* Secondary Color */
+  --color-main-secondary: #ffbd3a;
+  --color-main-secondary-400: #ffd26b;
+  --color-main-secondary-300: #ffdf88;
+  --color-main-secondary-200: #ffecb0;
+  --color-main-secondary-100: #fff7d7cc;
+
+  /* Tentiary Color */
+  --color-main-tentiary: #f64920;
+  --color-main-tentiary-400: #f98256;
+  --color-main-tentiary-300: #fca578;
+  --color-main-tentiary-200: #fecaa5;
+  --color-main-tentiary-100: #fee8d2cc;
+
+  /* Text dark */
+  --color-dark-primary: #222325;
+  --color-dark-secondary: #333333ad;
+  --color-dark-disabled: #3a354161;
+
+  /* Text Light */
+  --color-light-primary: #ffffff;
+  --color-light-secondary: #c1c2c4;
+  --color-light-disabled: #9d9ea1;
+
+  /* other color */
+  --color-primary-background: #ffffff;
+  --color-base-background: #f4f5fa;
+  --color-secondary-background: #f9fafc;
+  --color-primary-border: #3a35411f;
+  --color-card: #f1f1f1 --error-hover: #db3d1f;
+  --color-error: #ff5c2b;
+
+  --font-popins: "Popins", sans-serif, --font-dm-sans: "DM Sans", sans-serif;
+}

@@ -1,0 +1,240 @@
+import React, { useState } from "react";
+import logo from "../assets/icons/logo.png";
+import Navbar from "../components/Navbar";
+import AvatarProfile from "../assets/images/avatar-profile.png";
+import Banner from "../assets/images/banner-image.jpg";
+import NewsLatterBanner from "../assets/images/newslatter-banner.jpg";
+import Card from "../components/Card";
+import Footer from "../components/Footer";
+
+import IconMenu from "../assets/icons/menu-icon.png";
+import IconLogout from "../assets/icons/logout-icon.png";
+
+import { courses } from "../datas/course";
+import { Link, useNavigate } from "react-router-dom";
+import Button from "../components/Button";
+import MainLayout from "../layouts/MainLayout";
+
+import { CATEGORIES, MENU_ITEMS } from "../constants/constats";
+import { X } from "lucide-react";
+
+function HomePage() {
+  const navigate = useNavigate();
+  const [active, setActive] = useState(CATEGORIES[0]);
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const filtered =
+    active === "Semua Kelas"
+      ? courses
+      : courses.filter((c) => c.category === active);
+
+  const handleClick = (cat) => {
+    setActive(cat);
+    onChange?.(cat);
+  };
+
+  const [email, setEmail] = useState("");
+
+  const handleSubscribe = () => {
+    console.log("Subscribe:", email);
+  };
+
+  const handleLogOut = (action) => {
+    navigate("/login");
+  };
+
+  const handleClickCourse = (action) => {
+    document
+      .getElementById("course-section")
+      ?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  return (
+    <>
+      <Navbar>
+        <img
+          src={logo}
+          alt="logo vidio belajar"
+          className="w-40 md:w-60 max-h-14 mx-10 md:mx-20"
+        />
+
+        <div className="hidden md:flex items-center-safe mx-20 gap-6 relative">
+          <p className="font-md-sans font-medium text-dark-disabled">
+            Kategori
+          </p>
+
+          <button onClick={() => setDropdownOpen((v) => !v)}>
+            <img
+              src={AvatarProfile}
+              alt="avatar header"
+              className="w-11 h-11 rounded-md"
+            />
+          </button>
+
+          {dropdownOpen && (
+            <div className="absolute right-0 top-full mt-2 w-56 bg-white border border-gray-200 rounded-xl overflow-hidden z-20">
+              {MENU_ITEMS.slice(1).map((item) => (
+                <Link
+                  key={item.label}
+                  to={item.href}
+                  className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 border-b border-gray-100"
+                >
+                  {item.label}
+                </Link>
+              ))}
+              <button
+                onClick={handleLogOut}
+                className="w-full flex items-center px-4 py-3 gap-3 text-sm text-orange-500 font-medium hover:bg-orange-50"
+              >
+                Keluar{" "}
+                <img src={IconLogout} alt="icon-logout" className="w-5 h-5" />
+              </button>
+            </div>
+          )}
+        </div>
+
+        <button
+          onClick={() => setMobileMenuOpen((v) => !v)}
+          className="md:hidden p-2 mx-10 text-gray-700"
+          aria-label="Buka menu"
+        >
+          {mobileMenuOpen ? (
+            <X className="w-6 h-6" />
+          ) : (
+            <img src={IconMenu} alt="menu" className="w-6 h-6" />
+          )}
+        </button>
+
+        {mobileMenuOpen && (
+          <div className="md:hidden absolute left-0 top-full w-full bg-white border-t border-gray-200 z-20">
+            {MENU_ITEMS.map((item) => (
+              <Link
+                key={item.label}
+                to={item.href}
+                className="block px-4 py-4 text-sm text-gray-700 border-b border-gray-100"
+              >
+                {item.label}
+              </Link>
+            ))}
+            <button
+              onClick={handleLogOut}
+              className="w-full flex items-center px-4 py-4 gap-2 text-sm text-orange-500 font-medium"
+            >
+              Keluar{" "}
+              <img src={IconLogout} alt="icon-logout" className="w-5 h-5" />
+            </button>
+          </div>
+        )}
+      </Navbar>
+
+      <MainLayout>
+        <section className="relative rounded-3xl overflow-hidden w-full ">
+          <img
+            src={Banner}
+            alt="hero background"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/80" />
+          <div className="relative px-6 md:px-16 py-16 md:py-24 text-center flex flex-col items-center">
+            <h1 className="text-white font-popins font-extrabold text-3xl md:text-5xl leading-tight max-w-6xl">
+              Revolusi Pembelajaran: Temukan Ilmu Baru melalui Platform Video
+              Interaktif!
+            </h1>
+            <p className="text-gray-200 my-6 max-w-5xl text-sm md:text-base">
+              Temukan ilmu baru yang menarik dan mendalam melalui koleksi video
+              pembelajaran berkualitas tinggi. Tidak hanya itu, Anda juga dapat
+              berpartisipasi dalam latihan interaktif yang akan meningkatkan
+              pemahaman Anda.
+            </p>
+            <Button
+              onClick={handleClickCourse}
+              variant="primary"
+              className="max-w-md py-3"
+            >
+              Temukan Video Course untuk Dipelajari!
+            </Button>
+          </div>
+        </section>
+
+        <section id="course-section" className="self-start gap-10 w-full">
+          <h2 className="text-2xl font-popins md:text-3xl font-semibold text-gray-900">
+            Koleksi Video Pembelajaran Unggulan
+          </h2>
+          <p className="text-gray-500 text-base mt-2">
+            Jelajahi Dunia Pengetahuan Melalui Pilihan Kami!
+          </p>
+
+          <div className="flex flex-wrap gap-8 border-gray-200 my-10">
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => handleClick(cat)}
+                className={`relative pb-2 text-sm md:text-base font-medium transition-colors ${
+                  active === cat
+                    ? "text-error"
+                    : "text-gray-500 hover:text-gray-800"
+                }`}
+              >
+                {cat}
+                {active === cat && (
+                  <span className="absolute left-0 -bottom-1 w-full h-1 bg-main-tentiary rounded-full" />
+                )}
+              </button>
+            ))}
+          </div>
+
+          <div
+            id="course-section"
+            className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 "
+          >
+            {courses.map((course) => (
+              <Card key={course.id} course={course} />
+            ))}
+          </div>
+        </section>
+
+        <section className="relative rounded-3xl overflow-hidden w-full">
+          <img
+            src={NewsLatterBanner}
+            alt="newsletter background"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/75" />
+          <div className="relative px-6 md:px-16 py-16 text-center flex flex-col items-center">
+            <p className="text-gray-300 font-dm-sans text-sm tracking-widest font-semibold">
+              NEWSLETTER
+            </p>
+            <h2 className="text-white font-popins font-bold text-2xl md:text-4xl my-2">
+              Mau Belajar Lebih Banyak?
+            </h2>
+            <p className="text-gray-300 font-dm-sans max-w-xl text-sm md:text-base">
+              Daftarkan dirimu untuk mendapatkan informasi terbaru dan penawaran
+              spesial dari program-program terbaik hariesok.id
+            </p>
+            <form
+              onSubmit={handleSubscribe}
+              className="mt-10 flex w-full max-w-2xl flex-col gap-4 rounded-xl md:bg-white p-2 shadow-xl md:flex-row"
+            >
+              <input
+                type="email"
+                placeholder="Masukkan Emailmu"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="flex-1 py-3 md:py-0 rounded-xl border-none px-6 text-base outline-none bg-white"
+              />
+
+              <button className="h-12 rounded-xl bg-error px-10 font-semibold text-white transition hover:bg-orange-600 md:w-auto">
+                Subscribe
+              </button>
+            </form>
+          </div>
+        </section>
+      </MainLayout>
+      <Footer />
+    </>
+  );
+}
+
+export default HomePage;
