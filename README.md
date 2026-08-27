@@ -1,16 +1,22 @@
-# React + Vite
+# Harisenin Learning Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A video learning platform developed as part of the Harisenin Frontend Bootcamp.
 
-Currently, two official plugins are available:
+## Missions
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Mission | Branch |
+|---|---|
+| FE Intermediate 1 | `mission/fe-intermediate-1` |
+| FE Intermediate 2 | `mission/fe-intermediate-2` |
+| FE Advance 1 | `mission/fe-advance-1` |
+| FE Advance 2 | `mission/fe-advance-2` |
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React
+- Vite
+- Tailwind CSS
 
-## Expanding the ESLint configuration
+## Deployment
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Production: video-belajar-mission.vercel.app
