@@ -19,4 +19,4 @@ A video learning platform developed as part of the Harisenin Frontend Bootcamp.
 
 ## Deployment
 
-Production: video-belajar-mission.vercel.app
+Production: [Live Demo — Video Belajar Mission](https://video-belajar-mission.vercel.app)
