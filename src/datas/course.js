@@ -29,8 +29,43 @@ export const courses = [
     company: "Gojek",
     rating: 3.5,
     reviews: 85,
-    price: "Rp 300K",
+    price: 300000,
     category: "Pengembangan Diri",
+    originalPrice: 500000,
+    discountLabel: 40,
+    offerNote: "Penawaran spesial tersisa 2 hari lagi!",
+    curriculum: [
+      {
+        title: "Introduction to Financial Auditing",
+        lessons: [
+          {
+            title: "What auditors actually do",
+            type: "video",
+            duration: 10,
+          },
+          {
+            title: "Reading a financial statement",
+            type: "video",
+            duration: 14,
+          },
+        ],
+      },
+      {
+        title: "Big 4 interview preparation",
+        lessons: [
+          {
+            title: "Common technical questions",
+            type: "document",
+            duration: 8,
+          },
+          {
+            title: "Mock interview walkthrough",
+            type: "video",
+            duration: 12,
+          },
+        ],
+      },
+    ],
   },
   {
     id: 2,
@@ -43,8 +78,43 @@ export const courses = [
     company: "Gojek",
     rating: 3.5,
     reviews: 85,
-    price: "Rp 300K",
+    price: 300000,
     category: "Pengembangan Diri",
+    originalPrice: 500000,
+    discountLabel: 40,
+    offerNote: "Penawaran spesial tersisa 2 hari lagi!",
+    curriculum: [
+      {
+        title: "Introduction to Financial Auditing",
+        lessons: [
+          {
+            title: "What auditors actually do",
+            type: "video",
+            duration: 10,
+          },
+          {
+            title: "Reading a financial statement",
+            type: "video",
+            duration: 14,
+          },
+        ],
+      },
+      {
+        title: "Big 4 interview preparation",
+        lessons: [
+          {
+            title: "Common technical questions",
+            type: "document",
+            duration: 8,
+          },
+          {
+            title: "Mock interview walkthrough",
+            type: "video",
+            duration: 12,
+          },
+        ],
+      },
+    ],
   },
   {
     id: 3,
@@ -57,8 +127,43 @@ export const courses = [
     company: "Gojek",
     rating: 3.5,
     reviews: 85,
-    price: "Rp 300K",
+    price: 300000,
     category: "Pengembangan Diri",
+    originalPrice: 500000,
+    discountLabel: 40,
+    offerNote: "Penawaran spesial tersisa 2 hari lagi!",
+    curriculum: [
+      {
+        title: "Introduction to Financial Auditing",
+        lessons: [
+          {
+            title: "What auditors actually do",
+            type: "video",
+            duration: 10,
+          },
+          {
+            title: "Reading a financial statement",
+            type: "video",
+            duration: 14,
+          },
+        ],
+      },
+      {
+        title: "Big 4 interview preparation",
+        lessons: [
+          {
+            title: "Common technical questions",
+            type: "document",
+            duration: 8,
+          },
+          {
+            title: "Mock interview walkthrough",
+            type: "video",
+            duration: 12,
+          },
+        ],
+      },
+    ],
   },
   {
     id: 4,
@@ -71,8 +176,43 @@ export const courses = [
     company: "Gojek",
     rating: 3.5,
     reviews: 85,
-    price: "Rp 300K",
+    price: 300000,
     category: "Pengembangan Diri",
+    originalPrice: 500000,
+    discountLabel: 40,
+    offerNote: "Penawaran spesial tersisa 2 hari lagi!",
+    curriculum: [
+      {
+        title: "Introduction to Financial Auditing",
+        lessons: [
+          {
+            title: "What auditors actually do",
+            type: "video",
+            duration: 10,
+          },
+          {
+            title: "Reading a financial statement",
+            type: "video",
+            duration: 14,
+          },
+        ],
+      },
+      {
+        title: "Big 4 interview preparation",
+        lessons: [
+          {
+            title: "Common technical questions",
+            type: "document",
+            duration: 8,
+          },
+          {
+            title: "Mock interview walkthrough",
+            type: "video",
+            duration: 12,
+          },
+        ],
+      },
+    ],
   },
   {
     id: 5,
@@ -85,8 +225,43 @@ export const courses = [
     company: "Gojek",
     rating: 3.5,
     reviews: 85,
-    price: "Rp 300K",
+    price: 300000,
     category: "Pengembangan Diri",
+    originalPrice: 500000,
+    discountLabel: 40,
+    offerNote: "Penawaran spesial tersisa 2 hari lagi!",
+    curriculum: [
+      {
+        title: "Introduction to Financial Auditing",
+        lessons: [
+          {
+            title: "What auditors actually do",
+            type: "video",
+            duration: 10,
+          },
+          {
+            title: "Reading a financial statement",
+            type: "video",
+            duration: 14,
+          },
+        ],
+      },
+      {
+        title: "Big 4 interview preparation",
+        lessons: [
+          {
+            title: "Common technical questions",
+            type: "document",
+            duration: 8,
+          },
+          {
+            title: "Mock interview walkthrough",
+            type: "video",
+            duration: 12,
+          },
+        ],
+      },
+    ],
   },
   {
     id: 6,
@@ -99,8 +274,43 @@ export const courses = [
     company: "Gojek",
     rating: 3.5,
     reviews: 85,
-    price: "Rp 300K",
+    price: 300000,
     category: "Pengembangan Diri",
+    originalPrice: 500000,
+    discountLabel: 40,
+    offerNote: "Penawaran spesial tersisa 2 hari lagi!",
+    curriculum: [
+      {
+        title: "Introduction to Financial Auditing",
+        lessons: [
+          {
+            title: "What auditors actually do",
+            type: "video",
+            duration: 10,
+          },
+          {
+            title: "Reading a financial statement",
+            type: "video",
+            duration: 14,
+          },
+        ],
+      },
+      {
+        title: "Big 4 interview preparation",
+        lessons: [
+          {
+            title: "Common technical questions",
+            type: "document",
+            duration: 8,
+          },
+          {
+            title: "Mock interview walkthrough",
+            type: "video",
+            duration: 12,
+          },
+        ],
+      },
+    ],
   },
   {
     id: 7,
@@ -113,8 +323,43 @@ export const courses = [
     company: "Gojek",
     rating: 3.5,
     reviews: 85,
-    price: "Rp 300K",
+    price: 300000,
     category: "Pengembangan Diri",
+    originalPrice: 500000,
+    discountLabel: 40,
+    offerNote: "Penawaran spesial tersisa 2 hari lagi!",
+    curriculum: [
+      {
+        title: "Introduction to Financial Auditing",
+        lessons: [
+          {
+            title: "What auditors actually do",
+            type: "video",
+            duration: 10,
+          },
+          {
+            title: "Reading a financial statement",
+            type: "video",
+            duration: 14,
+          },
+        ],
+      },
+      {
+        title: "Big 4 interview preparation",
+        lessons: [
+          {
+            title: "Common technical questions",
+            type: "document",
+            duration: 8,
+          },
+          {
+            title: "Mock interview walkthrough",
+            type: "video",
+            duration: 12,
+          },
+        ],
+      },
+    ],
   },
   {
     id: 8,
@@ -127,8 +372,43 @@ export const courses = [
     company: "Gojek",
     rating: 3.5,
     reviews: 85,
-    price: "Rp 300K",
+    price: 300000,
     category: "Pengembangan Diri",
+    originalPrice: 500000,
+    discountLabel: 40,
+    offerNote: "Penawaran spesial tersisa 2 hari lagi!",
+    curriculum: [
+      {
+        title: "Introduction to Financial Auditing",
+        lessons: [
+          {
+            title: "What auditors actually do",
+            type: "video",
+            duration: 10,
+          },
+          {
+            title: "Reading a financial statement",
+            type: "video",
+            duration: 14,
+          },
+        ],
+      },
+      {
+        title: "Big 4 interview preparation",
+        lessons: [
+          {
+            title: "Common technical questions",
+            type: "document",
+            duration: 8,
+          },
+          {
+            title: "Mock interview walkthrough",
+            type: "video",
+            duration: 12,
+          },
+        ],
+      },
+    ],
   },
   {
     id: 9,
@@ -141,7 +421,42 @@ export const courses = [
     company: "Gojek",
     rating: 3.5,
     reviews: 85,
-    price: "Rp 300K",
+    price: 300000,
     category: "Pengembangan Diri",
+    originalPrice: 500000,
+    discountLabel: 40,
+    offerNote: "Penawaran spesial tersisa 2 hari lagi!",
+    curriculum: [
+      {
+        title: "Introduction to Financial Auditing",
+        lessons: [
+          {
+            title: "What auditors actually do",
+            type: "video",
+            duration: 10,
+          },
+          {
+            title: "Reading a financial statement",
+            type: "video",
+            duration: 14,
+          },
+        ],
+      },
+      {
+        title: "Big 4 interview preparation",
+        lessons: [
+          {
+            title: "Common technical questions",
+            type: "document",
+            duration: 8,
+          },
+          {
+            title: "Mock interview walkthrough",
+            type: "video",
+            duration: 12,
+          },
+        ],
+      },
+    ],
   },
 ];

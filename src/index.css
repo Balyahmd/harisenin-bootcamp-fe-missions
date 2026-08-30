@@ -42,5 +42,16 @@
   --color-card: #f1f1f1 --error-hover: #db3d1f;
   --color-error: #ff5c2b;
 
+  --color-info: rgba(9, 128, 226, 1);
+
   --font-popins: "Popins", sans-serif, --font-dm-sans: "DM Sans", sans-serif;
+}
+
+
+animation: var(--animate-pulse); /* pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite */
+
+@keyframes pulse {
+  50% {
+    opacity: 0.5;
+  }
 }
