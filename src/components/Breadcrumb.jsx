@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function Breadcrumb({ items = [] }) {
   return (
     <nav aria-label="Breadcrumb">
-      <ol className="flex flex-wrap items-center gap-1.5 font-dm-sans text-base text-dark-primary">
+      <ol className="flex flex-wrap items-center gap-1.5 font-dm-sans text-sm md:text-base text-light-secondary">
         {items.map((item, idx) => {
           const isLast = idx === items.length - 1;
 
