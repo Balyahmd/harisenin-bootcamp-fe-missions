@@ -1,10 +1,13 @@
-import { FileText, CirclePlay, Clock } from "lucide-react";
+import { FileText, CirclePlay, Clock, ClipboardCheck } from "lucide-react";
 
 function LessonRow({ title, type = "video", duration }) {
   const formattedDuration = `${duration} Menit`;
 
-  const ContentIcon = type === "video" ? CirclePlay : FileText;
-  const contentLabel = type === "video" ? "Video" : "Dokumen";
+  const ContentIcon =
+    type === "video" ? CirclePlay : type === "quiz" ? ClipboardCheck : FileText;
+
+  const contentLabel =
+    type === "video" ? "Video" : type === "quiz" ? "Quiz" : "Dokumen";
 
   return (
     <div className="flex w-full items-center justify-between rounded-xl border border-gray-200 bg-white p-5">
