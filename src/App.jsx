@@ -8,6 +8,8 @@ import DetailsPage from "./pages/DetailsPage";
 import LadingPageLayout from "./layouts/LadingPageLayout";
 import AuthLayout from "./layouts/AuthLayout";
 import RootLayout from "./layouts/RootLayout";
+import ManageCoursePage from "./pages/ManageCoursePage";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -26,8 +28,18 @@ function App() {
         <Route element={<RootLayout />}>
           <Route path="/beranda" element={<HomePage />} />
           <Route path="/course/:id" element={<DetailsPage />} />
+          <Route path="/manage-course" element={<ManageCoursePage/>}/>
         </Route>
       </Routes>
+
+        <ToastContainer
+        position="top-right"
+        autoClose={1800}
+        hideProgressBar
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+      />
     </div>
   );
 }
