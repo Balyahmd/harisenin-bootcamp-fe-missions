@@ -13,3 +13,5 @@ export const MENU_ITEMS = [
   { label: "Kelas Saya", href: "/kelas" },
   { label: "Pesanan Saya", href: "/pesanan" },
 ];
+
+export const TYPE_MODUL = ["video", "document", "quiz"];

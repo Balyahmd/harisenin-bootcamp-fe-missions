@@ -1,37 +1,24 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { courses } from "../datas/course";
+// import { courses } from "../datas/course";
 import { CATEGORIES } from "../constants/constats";
 
 import Card from "../components/Card";
 import Footer from "../components/Footer";
 
-import logo from "../assets/icons/logo.png";
 import HeroSection from "../sections/ladingpage/HeroSection";
 import BenefitSection from "../sections/ladingpage/BenefitSection";
 import TestimonialsSection from "../sections/ladingpage/TestimonialsSection";
 import FaqSection from "../sections/ladingpage/FaqSection";
 import CtaSection from "../sections/ladingpage/CtaSection";
+import { useCourseState } from "../hooks/useCourseState";
 
-import { MenuIcon, X } from "lucide-react";
-
-const navLinks = [
-  { id: 1, label: "Kategori", href: "#course" },
-  { id: 2, label: "Keunggulan", href: "#keunggulan" },
-  { id: 3, label: "Testimoni", href: "#testimoni" },
-  { id: 4, label: "FAQ", href: "#faq" },
-];
 
 export default function LandingPage() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState("Semua Kelas");
+  const { courses, loading, error } = useCourseState();
 
-  const navigate = useNavigate();
-
-  function handleLoginClick() {
-    navigate("./login");
-  }
 
   const filtered =
     activeCategory === "Semua Kelas"

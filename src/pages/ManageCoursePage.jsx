@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { courses as initialCourses } from "../datas/course";
 import { CATEGORIES } from "../constants/constats";
+import { useCourseState } from "../hooks/useCourseState";
+import { useCourseActions } from "../hooks/useCourseActions";
 
 import CourseFilters from "../components/Manage-course/CourseFilters";
 import CourseTable from "../components/Manage-course/CourseTable";
@@ -11,16 +12,15 @@ import Pagination from "../components/Pagination";
 
 import { ArrowLeft, Trash2 } from "lucide-react";
 import { toast } from "react-toastify";
+import CourseStats from "../components/Manage-course/CourseStats";
 
 const ITEMS_PER_PAGE = 10;
 
 export default function ManageCoursePage() {
   const navigate = useNavigate();
-  const [courses, setCourses] = useState(() => {
-    const savedCourses = localStorage.getItem("courses");
 
-    return savedCourses ? JSON.parse(savedCourses) : initialCourses;
-  });
+  const { courses, loading, error } = useCourseState();
+  const { addCourse, updateCourse, removeCourse } = useCourseActions();
 
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
@@ -28,21 +28,19 @@ export default function ManageCoursePage() {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
 
-  const [deleteCourse, setDeleteCourse] = useState(null);
+  const [deleteTarget, setDeleteTarget] = useState(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-
-  useEffect(() => {
-    localStorage.setItem("courses", JSON.stringify(courses));
-  }, [courses]);
+  const [deleting, setDeleting] = useState(false);
 
   const categories = CATEGORIES.slice(1);
 
   const filteredCourses = useMemo(() => {
     return courses.filter((course) => {
       const matchSearch =
-        course.title.toLowerCase().includes(search.toLowerCase()) ||
-        course.mentor.toLowerCase().includes(search.toLowerCase());
+        course.title?.toLowerCase().includes(search.toLowerCase()) ||
+        course.mentor?.toLowerCase().includes(search.toLowerCase());
 
       const matchCategory = !category || course.category === category;
 
@@ -54,7 +52,6 @@ export default function ManageCoursePage() {
 
   const currentCourses = useMemo(() => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-
     const endIndex = startIndex + ITEMS_PER_PAGE;
 
     return filteredCourses.slice(startIndex, endIndex);
@@ -75,50 +72,44 @@ export default function ManageCoursePage() {
   };
 
   const handleDelete = (course) => {
-    setDeleteCourse(course);
+    setDeleteTarget(course);
     setDeleteModalOpen(true);
   };
 
-  const handleConfirmDelete = () => {
-    if (!deleteCourse) return;
+  const handleConfirmDelete = async () => {
+    if (!deleteTarget) return;
 
-    setCourses((prev) => prev.filter((item) => item.id !== deleteCourse.id));
-
-    setDeleteModalOpen(false);
-    setDeleteCourse(null);
-
-    toast.success("Course berhasil dihapus!");
+    setDeleting(true);
+    try {
+      await removeCourse(deleteTarget.id);
+      toast.success("Course berhasil dihapus!");
+      setDeleteModalOpen(false);
+      setDeleteTarget(null);
+    } catch (err) {
+      toast.error(err.message || "Gagal menghapus course");
+    } finally {
+      setDeleting(false);
+    }
   };
 
-  const handleSubmit = (form) => {
-    if (selectedCourse) {
-      setCourses((prev) =>
-        prev.map((course) =>
-          course.id === selectedCourse.id
-            ? {
-                ...course,
-                ...form,
-              }
-            : course,
-        ),
-      );
+  const handleSubmit = async (form) => {
+    setSubmitting(true);
+    try {
+      if (selectedCourse) {
+        await updateCourse(selectedCourse.id, form);
+        toast.success("Course berhasil diperbarui!");
+      } else {
+        await addCourse(form);
+        toast.success("Course berhasil ditambahkan!");
+      }
 
-      toast.success("Course berhasil diperbarui!");
-    } else {
-      setCourses((prev) => [
-        ...prev,
-        {
-          ...form,
-          id: Date.now(),
-          rating: 0,
-          reviews: 0,
-        },
-      ]);
-      toast.success("Course berhasil ditambahkan!");
+      setModalOpen(false);
+      setSelectedCourse(null);
+    } catch (err) {
+      toast.error(err.message || "Gagal menyimpan course");
+    } finally {
+      setSubmitting(false);
     }
-
-    setModalOpen(false);
-    setSelectedCourse(null);
   };
 
   return (
@@ -128,7 +119,7 @@ export default function ManageCoursePage() {
           <button
             type="button"
             onClick={() => navigate("/beranda")}
-            className="flex h-8 w-8 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500  transition hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900"
+            className="flex h-8 w-8 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 transition hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900"
             title="Kembali ke Home"
             aria-label="Kembali ke Home"
           >
@@ -143,6 +134,8 @@ export default function ManageCoursePage() {
           Kelola course yang tersedia di platform.
         </p>
       </div>
+
+      <CourseStats courses={courses} loading={loading}/>
 
       <CourseFilters
         search={search}
@@ -159,25 +152,38 @@ export default function ManageCoursePage() {
         onAdd={handleAdd}
       />
 
-      <CourseTable
-        courses={currentCourses}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-      />
-
-      {totalPages > 0 && (
-        <div className="mt-5 flex justify-end">
-          <Pagination
-            page={currentPage}
-            totalPages={totalPages}
-            onPageChange={goToPage}
-          />
+      {loading ? (
+        <div className="flex items-center justify-center rounded-xl border border-gray-100 bg-white py-16 text-sm text-gray-500">
+          Memuat data course...
         </div>
+      ) : error ? (
+        <div className="flex items-center justify-center rounded-xl border border-red-100 bg-red-50 py-16 text-sm text-error">
+          {error}
+        </div>
+      ) : (
+        <>
+          <CourseTable
+            courses={currentCourses}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+
+          {totalPages > 0 && (
+            <div className="mt-5 flex justify-end">
+              <Pagination
+                page={currentPage}
+                totalPages={totalPages}
+                onPageChange={goToPage}
+              />
+            </div>
+          )}
+        </>
       )}
 
       <CourseModal
         open={modalOpen}
         initialCourse={selectedCourse}
+        submitting={submitting}
         onClose={() => {
           setModalOpen(false);
           setSelectedCourse(null);
@@ -185,7 +191,7 @@ export default function ManageCoursePage() {
         onSubmit={handleSubmit}
       />
 
-      {deleteModalOpen && deleteCourse && (
+      {deleteModalOpen && deleteTarget && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
           <div className="w-full max-w-sm rounded-xl bg-white p-6 shadow-xl">
             <div className="flex gap-3 items-center flex-col mb-3">
@@ -201,7 +207,7 @@ export default function ManageCoursePage() {
             <p className="mt-2 text-sm leading-5 text-gray-500">
               Apakah kamu yakin ingin menghapus{" "}
               <span className="font-medium text-gray-700">
-                "{deleteCourse.title}"
+                "{deleteTarget.title}"
               </span>
               ?
             </p>
@@ -213,21 +219,23 @@ export default function ManageCoursePage() {
             <div className="mt-6 flex justify-end gap-3">
               <button
                 type="button"
+                disabled={deleting}
                 onClick={() => {
                   setDeleteModalOpen(false);
-                  setDeleteCourse(null);
+                  setDeleteTarget(null);
                 }}
-                className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50 disabled:opacity-50"
               >
                 Batal
               </button>
 
               <button
                 type="button"
+                disabled={deleting}
                 onClick={handleConfirmDelete}
-                className="rounded-lg bg-error px-4 py-2 text-sm font-medium text-white transition hover:bg-red-600"
+                className="rounded-lg bg-error px-4 py-2 text-sm font-medium text-white transition hover:bg-red-600 disabled:opacity-50"
               >
-                Hapus
+                {deleting ? "Menghapus..." : "Hapus"}
               </button>
             </div>
           </div>
