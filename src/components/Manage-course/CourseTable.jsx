@@ -1,14 +1,5 @@
 import { BookOpen, Pencil, Star, Trash2, Video } from "lucide-react";
-
-function formatRupiah(value) {
-  if (!value) return "-";
-
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    maximumFractionDigits: 0,
-  }).format(Number(value));
-}
+import { formatCurrency } from "../../utils/formatCurrency";
 
 function getLessonCount(curriculum = []) {
   return curriculum.reduce(
@@ -79,9 +70,9 @@ export default function CourseTable({ courses, onEdit, onDelete }) {
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
                         <div className="h-12 w-16 shrink-0 overflow-hidden rounded-lg bg-gray-100">
-                          {course.image ? (
+                          {course.thumbnail ? (
                             <img
-                              src={course.image}
+                              src={course.thumbnail}
                               alt={course.title}
                               className="h-full w-full object-cover"
                               onError={(e) => {
@@ -110,9 +101,9 @@ export default function CourseTable({ courses, onEdit, onDelete }) {
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-2">
                         <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-green-100 text-xs font-semibold text-green-700">
-                          {course.avatar ? (
+                          {course.avatarMentor ? (
                             <img
-                              src={course.avatar}
+                              src={course.avatarMentor}
                               alt="Mentor"
                               className="h-full w-full object-cover"
                             />
@@ -140,7 +131,7 @@ export default function CourseTable({ courses, onEdit, onDelete }) {
 
                     <td className="px-5 py-4">
                       <p className="text-sm font-semibold text-green-600">
-                        {formatRupiah(course.price)}
+                        {course.price != null ? formatCurrency(course.price) : "-"}
                       </p>
                     </td>
 
@@ -177,7 +168,7 @@ export default function CourseTable({ courses, onEdit, onDelete }) {
                         <button
                           type="button"
                           onClick={() => onEdit(course)}
-                          className="rounded-lg p-2 text-gray-500 transition hover:bg-blue-50 hover:text-blue-600"
+                          className="rounded-lg p-2 text-gray-500 transition hover:bg-main-secondary-100 hover:text-main-secondary"
                           title="Edit"
                         >
                           <Pencil className="h-4 w-4" />
@@ -186,7 +177,7 @@ export default function CourseTable({ courses, onEdit, onDelete }) {
                         <button
                           type="button"
                           onClick={() => onDelete(course)}
-                          className="rounded-lg p-2 text-gray-500 transition hover:bg-red-50 hover:text-red-600"
+                          className="rounded-lg p-2 text-gray-500 transition hover:bg-red-50 hover:text-error"
                           title="Hapus"
                         >
                           <Trash2 className="h-4 w-4" />

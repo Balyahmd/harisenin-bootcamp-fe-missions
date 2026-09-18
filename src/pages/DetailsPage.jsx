@@ -1,4 +1,5 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
+
 import { Navigate, useParams } from "react-router-dom";
 
 import {
@@ -15,10 +16,10 @@ import StarRating from "../components/StarRating";
 import Card from "../components/Card";
 import CurriculumSection from "../sections/CuriculumSection";
 import Pagination from "../components/Pagination";
-
 import { buildCourseBreadcrumb } from "../utils/breadscrumb";
-import { courses } from "../datas/course";
 import Button from "../components/Button";
+import { useCourseState } from "../hooks/useCourseState";
+import DetailsSkeleton from "../components/Skeleton/DetailPageSkeleton";
 
 const RELATED_ITEMS_PER_PAGE = 3;
 
@@ -26,7 +27,17 @@ function DetailsPage() {
   const { id } = useParams();
   const [relatedPage, setRelatedPage] = useState(1);
 
-  const course = courses.find((item) => item.id === Number(id));
+  const { courses, loading, error } = useCourseState();
+
+  if (loading) {
+    return <DetailsSkeleton />;
+  }
+
+  if (error) {
+    return <Navigate to="/" replace />;
+  }
+
+  const course = courses.find((item) => String(item.id) === String(id));
 
   if (!course) {
     return <Navigate to="/" replace />;
@@ -51,37 +62,42 @@ function DetailsPage() {
   const totalVideos = curriculum.reduce(
     (total, section) =>
       total +
-      section.lessons.filter((lesson) => lesson.type === "video").length,
+      (section.lessons || []).filter((lesson) => lesson.type === "video")
+        .length,
     0,
   );
 
   const totalDocuments = curriculum.reduce(
     (total, section) =>
       total +
-      section.lessons.filter((lesson) => lesson.type === "document").length,
+      (section.lessons || []).filter((lesson) => lesson.type === "document")
+        .length,
     0,
   );
 
   const relatedCourses = courses.filter(
-    (item) => item.category === course.category && item.id !== course.id,
+    (item) =>
+      item.category === course.category &&
+      String(item.id) !== String(course.id),
   );
 
   const relatedTotalPages = Math.max(
     1,
     Math.ceil(relatedCourses.length / RELATED_ITEMS_PER_PAGE),
   );
+
   const relatedCurrentPage = Math.min(relatedPage, relatedTotalPages);
 
-  const currentRelatedCourses = useMemo(() => {
-    const startIndex = (relatedCurrentPage - 1) * RELATED_ITEMS_PER_PAGE;
-    return relatedCourses.slice(
-      startIndex,
-      startIndex + RELATED_ITEMS_PER_PAGE,
-    );
-  }, [relatedCourses, relatedCurrentPage]);
+  const startIndex = (relatedCurrentPage - 1) * RELATED_ITEMS_PER_PAGE;
+
+  const currentRelatedCourses = relatedCourses.slice(
+    startIndex,
+    startIndex + RELATED_ITEMS_PER_PAGE,
+  );
 
   const goToRelatedPage = (p) => {
     if (p < 1 || p > relatedTotalPages) return;
+
     setRelatedPage(p);
   };
 
@@ -89,22 +105,18 @@ function DetailsPage() {
     <>
       <div className="flex-end space-y-5">
         <Breadcrumb items={buildCourseBreadcrumb(course)} />
-
         <div className="relative flex w-full md:w-300  min-h-100 items-end overflow-hidden rounded-2xl">
           <div
             className="absolute inset-0 bg-cover bg-center"
             style={{
-              backgroundImage: `url(${course.image})`,
+              backgroundImage: `url(${course.thumbnail})`,
             }}
           />
-
           <div className="absolute inset-0 bg-linear-to-r from-black/85 via-black/60 to-black/20" />
-
           <div className="relative my-auto max-w-5xl p-7 sm:p-22">
             <h1 className="mb-2 font-popins text-2xl font-bold leading-tight text-white sm:text-4xl">
               {course.title}
             </h1>
-
             <p className="mb-4 font-dm-sans text-sm text-gray-200 sm:text-base">
               {course.desc}
             </p>
@@ -118,13 +130,12 @@ function DetailsPage() {
         </div>
       </div>
 
-      <div className="grid items-start gap-6 lg:grid-cols-3">
+      <div className="grid w-full items-start gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2">
           <section className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-7">
             <h2 className="mb-4 font-popins text-xl font-semibold text-dark-primary">
               Deskripsi
             </h2>
-
             <p className="font-dm-sans text-sm md:text-base leading-relaxed text-dark-secondary">
               {course.desc}
             </p>
@@ -135,7 +146,6 @@ function DetailsPage() {
               <h2 className="mb-2 font-popins text-xl font-bold text-gray-900">
                 Kamu akan Mempelajari
               </h2>
-
               <div>
                 {curriculum.map((section, idx) => (
                   <CurriculumSection
@@ -174,11 +184,10 @@ function DetailsPage() {
             )}
           </div>
 
-          {course.offerNote && (
-            <p className="mb-4 font-dm-sans text-sm font-medium text-info">
-              {course.offerNote}
-            </p>
-          )}
+          <p className="mb-4 font-dm-sans text-sm font-medium text-info">
+            Penawaran spesial tersisa {Math.floor(Math.random() * 7) + 1} hari
+            lagi!
+          </p>
 
           <Button variant="primary">Beli Sekarang</Button>
 

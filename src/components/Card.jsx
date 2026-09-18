@@ -10,7 +10,7 @@ function Card({ course }) {
         <div className="flex flex-row items-stretch gap-3 md:flex-col md:items-start md:gap-0">
           <div className="relative md:w-full md:p-5">
             <img
-              src={course.image}
+              src={course.thumbnail}
               alt={course.title}
               loading="lazy"
               className="h-22 w-22 rounded-xl object-cover transition-transform duration-300 hover:scale-105 md:h-60 md:w-full md:self-auto"
@@ -38,7 +38,7 @@ function Card({ course }) {
 
             <div className="flex items-center gap-2 md:gap-3">
               <img
-                src={course.avatar}
+                src={course.avatarMentor}
                 alt={course.mentor}
                 className="h-8 w-8 shrink-0 rounded-lg object-cover md:h-10 md:w-10"
               />
@@ -49,9 +49,9 @@ function Card({ course }) {
                 </p>
 
                 <p className="truncate text-sm text-gray-500">
-                  {course.role}{" "}
+                  Senior Mentor {" "}
                   <span className="font-semibold text-gray-700">
-                    {course.company}
+                    VidioBelajar
                   </span>
                 </p>
               </div>
@@ -64,7 +64,7 @@ function Card({ course }) {
             <StarRating rating={course.rating} />
 
             <span className="shrink-0 whitespace-nowrap text-sm text-gray-500 underline">
-              {course.rating} ({course.reviews})
+              {course.rating} ({Math.floor(Math.random() * 100) + 1})
             </span>
           </div>
 

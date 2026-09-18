@@ -55,24 +55,24 @@ export default function CourseForm({ form, setForm, errors = {} }) {
 
         <input
           type="url"
-          value={form.image}
-          onChange={(e) => updateField("image", e.target.value)}
+          value={form.thumbnail}
+          onChange={(e) => updateField("thumbnail", e.target.value)}
           placeholder="https://example.com/course.jpg"
           className={inputClass}
         />
 
-        {form.image && (
+        {form.thumbnail && (
           <div className="mt-3 overflow-hidden rounded-lg border border-gray-200">
             <img
-              src={form.image}
+              src={form.thumbnail}
               alt="Preview thumbnail"
               className="h-40 w-full object-cover"
             />
           </div>
         )}
 
-        {errors.image && (
-          <p className="mt-1 text-xs text-red-500">{errors.image}</p>
+        {errors.thumnail && (
+          <p className="mt-1 text-xs text-red-500">{errors.thumnail}</p>
         )}
       </div>
 

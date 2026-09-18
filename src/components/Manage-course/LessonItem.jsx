@@ -24,6 +24,19 @@ export default function LessonItem({
         className="min-w-0 flex-1 rounded-md border border-gray-200 px-3 py-2 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100"
       />
 
+      <input
+        type="text"
+        value={lesson.duration || ""}
+        onChange={(e) =>
+          onChange(moduleIndex, lessonIndex, {
+            ...lesson,
+            duration: e.target.value,
+          })
+        }
+        placeholder="10 dalam menit"
+        className="w-24 shrink-0 rounded-md border border-gray-200 px-2 py-2 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100"
+      />
+
       <select
         value={lesson.type || "video"}
         onChange={(e) =>
