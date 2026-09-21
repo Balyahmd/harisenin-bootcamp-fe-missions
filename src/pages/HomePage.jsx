@@ -12,6 +12,8 @@ import SortDropdown from "../components/SortDropdown";
 import { CATEGORIES } from "../constants/constats";
 import CardSkeleton from "../components/Skeleton/CardSkeleton";
 import { useCourseState } from "../hooks/useCourseState";
+import { useSelector } from "react-redux";
+import ListView from "../components/ListView";
 
 const ITEMS_PER_PAGE = 9;
 
@@ -31,7 +33,7 @@ function HomePage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [email, setEmail] = useState("");
 
-  const { courses, loading, error } = useCourseState();
+  const { courses, loading, error } = useSelector((state) => state.courses);
 
   const filtered = useMemo(() => {
     let result =
@@ -122,6 +124,7 @@ function HomePage() {
 
   return (
     <>
+    <ListView/>
       <section className="relative w-full overflow-hidden rounded-3xl">
         <img
           src={Banner}

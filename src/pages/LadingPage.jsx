@@ -12,13 +12,14 @@ import BenefitSection from "../sections/ladingpage/BenefitSection";
 import TestimonialsSection from "../sections/ladingpage/TestimonialsSection";
 import FaqSection from "../sections/ladingpage/FaqSection";
 import CtaSection from "../sections/ladingpage/CtaSection";
-import { useCourseState } from "../hooks/useCourseState";
+import { useSelector } from "react-redux";
+import ListView from "../components/ListView";
+import CardSkeleton from "../components/Skeleton/CardSkeleton";
 
 
 export default function LandingPage() {
   const [activeCategory, setActiveCategory] = useState("Semua Kelas");
-  const { courses, loading, error } = useCourseState();
-
+  const {courses, loading, error} = useSelector((state) => state.courses) 
 
   const filtered =
     activeCategory === "Semua Kelas"
@@ -27,6 +28,7 @@ export default function LandingPage() {
 
   return (
     <>
+      <ListView/>
       <HeroSection />
 
       <section id="course" className=" scroll-mt-22 px-5 py-12">
@@ -54,11 +56,28 @@ export default function LandingPage() {
             ))}
           </div>
 
-          <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((course) => (
-              <Card key={course.id} course={course} />
-            ))}
-          </div>
+         {loading && (
+            <p className="mt-8">
+              <CardSkeleton/>
+            </p>
+          )}
+
+          {error && (
+            <p className="mt-8 text-red-500">
+              {error}
+            </p>
+          )}
+
+          {!loading && !error && (
+            <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {filtered.map((course) => (
+                <Card
+                  key={course.id}
+                  course={course}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

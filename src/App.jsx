@@ -10,6 +10,7 @@ import AuthLayout from "./layouts/AuthLayout";
 import RootLayout from "./layouts/RootLayout";
 import ManageCoursePage from "./pages/ManageCoursePage";
 import { ToastContainer } from "react-toastify";
+import ListView from "./components/ListView";
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
       <Routes>
         <Route element={<LadingPageLayout />}>
           <Route path="/" element={<LadingePage />} />
+          <Route path="/list" element={<ListView />} />
+          
         </Route>
 
         <Route element={<AuthLayout />}>

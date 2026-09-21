@@ -2,8 +2,6 @@ import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { CATEGORIES } from "../constants/constats";
-import { useCourseState } from "../hooks/useCourseState";
-import { useCourseActions } from "../hooks/useCourseActions";
 
 import CourseFilters from "../components/Manage-course/CourseFilters";
 import CourseTable from "../components/Manage-course/CourseTable";
@@ -13,14 +11,27 @@ import Pagination from "../components/Pagination";
 import { ArrowLeft, Trash2 } from "lucide-react";
 import { toast } from "react-toastify";
 import CourseStats from "../components/Manage-course/CourseStats";
+import { useDispatch, useSelector } from "react-redux";
+import ListView from "../components/ListView";
+import {
+  addCourse,
+  updateCourse,
+  removeCourse,
+  setLoading,
+  setError,
+} from "../store/redux/courseReducer";
+import {
+  createCourse,
+  editCourse,
+  deleteCourse,
+} from "../services/api/courseApi";
 
 const ITEMS_PER_PAGE = 10;
 
 export default function ManageCoursePage() {
   const navigate = useNavigate();
 
-  const { courses, loading, error } = useCourseState();
-  const { addCourse, updateCourse, removeCourse } = useCourseActions();
+  const { courses, loading, error } = useSelector((state) => state.courses);
 
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
@@ -34,6 +45,7 @@ export default function ManageCoursePage() {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
+  const dispatch = useDispatch();
   const categories = CATEGORIES.slice(1);
 
   const filteredCourses = useMemo(() => {
@@ -81,7 +93,9 @@ export default function ManageCoursePage() {
 
     setDeleting(true);
     try {
-      await removeCourse(deleteTarget.id);
+      await deleteCourse(deleteTarget.id);
+
+      dispatch(removeCourse(deleteTarget.id));
       toast.success("Course berhasil dihapus!");
       setDeleteModalOpen(false);
       setDeleteTarget(null);
@@ -96,10 +110,13 @@ export default function ManageCoursePage() {
     setSubmitting(true);
     try {
       if (selectedCourse) {
-        await updateCourse(selectedCourse.id, form);
+        const updatedCourse = await editCourse(selectedCourse.id, form);
+        dispatch(updateCourse(updatedCourse));
         toast.success("Course berhasil diperbarui!");
       } else {
-        await addCourse(form);
+        const newCourse = await createCourse(form)
+
+        dispatch(addCourse(newCourse));
         toast.success("Course berhasil ditambahkan!");
       }
 
@@ -114,6 +131,7 @@ export default function ManageCoursePage() {
 
   return (
     <div>
+      <ListView />
       <div className="mb-6">
         <div className="flex items-center gap-3">
           <button
@@ -135,7 +153,7 @@ export default function ManageCoursePage() {
         </p>
       </div>
 
-      <CourseStats courses={courses} loading={loading}/>
+      <CourseStats courses={courses} loading={loading} />
 
       <CourseFilters
         search={search}

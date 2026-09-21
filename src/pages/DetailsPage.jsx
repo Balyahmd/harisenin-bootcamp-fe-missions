@@ -18,8 +18,9 @@ import CurriculumSection from "../sections/CuriculumSection";
 import Pagination from "../components/Pagination";
 import { buildCourseBreadcrumb } from "../utils/breadscrumb";
 import Button from "../components/Button";
-import { useCourseState } from "../hooks/useCourseState";
 import DetailsSkeleton from "../components/Skeleton/DetailPageSkeleton";
+import { useSelector } from "react-redux";
+import ListView from "../components/ListView";
 
 const RELATED_ITEMS_PER_PAGE = 3;
 
@@ -27,7 +28,7 @@ function DetailsPage() {
   const { id } = useParams();
   const [relatedPage, setRelatedPage] = useState(1);
 
-  const { courses, loading, error } = useCourseState();
+  const { courses, loading, error } = useSelector((state) => state.courses)
 
   if (loading) {
     return <DetailsSkeleton />;
@@ -103,6 +104,7 @@ function DetailsPage() {
 
   return (
     <>
+    <ListView/>
       <div className="flex-end space-y-5">
         <Breadcrumb items={buildCourseBreadcrumb(course)} />
         <div className="relative flex w-full md:w-300  min-h-100 items-end overflow-hidden rounded-2xl">
